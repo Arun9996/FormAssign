@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+    /* General body styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: #ffffff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      width: 400px;
+    }
+
+    .form-container h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #007bff;
+    }
+
+    .form-group textarea {
+      resize: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .success-message {
+      margin-top: 15px;
+      padding: 10px;
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      display: none;
+      text-align: center;
+    }
+
+    .error {
+      color: #dc3545;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Registration Form</h1>
+    <form id="registrationForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        <div id="usernameError" class="error">Username is required</div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <div id="emailError" class="error">Please enter a valid email</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter a strong password" required>
+        <div id="passwordError" class="error">
+          Password must be 6-12 characters long, include at least one uppercase letter, one lowercase letter, and one digit.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message or Address</label>
+        <textarea id="message" name="message" rows="3" placeholder="Enter your message or address" required></textarea>
+        <div id="messageError" class="error">Message or address is required</div>
+      </div>
+
+      <div class="form-group">
+        <label for="contact">Contact Number</label>
+        <input type="text" id="contact" name="contact" placeholder="Enter your contact number" required>
+        <div id="contactError" class="error">Contact number must be exactly 10 digits</div>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit</button>
+      <div id="successMessage" class="success-message">
+        Registration successful! 🎉
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript for form validation and success message
+    const form = document.getElementById("registrationForm");
+    const username = document.getElementById("username");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const message = document.getElementById("message");
+    const contact = document.getElementById("contact");
+    const successMessage = document.getElementById("successMessage");
+
+    // Error elements
+    const usernameError = document.getElementById("usernameError");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const messageError = document.getElementById("messageError");
+    const contactError = document.getElementById("contactError");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent form submission
+      let valid = true;
+
+      // Validate username
+      if (username.value.trim() === "") {
+        usernameError.style.display = "block";
+        valid = false;
+      } else {
+        usernameError.style.display = "none";
+      }
+
+      // Validate email
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!emailPattern.test(email.value.trim())) {
+        emailError.style.display = "block";
+        valid = false;
+      } else {
+        emailError.style.display = "none";
+      }
+
+      // Validate password
+      const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,12}$/;
+      if (!passwordPattern.test(password.value)) {
+        passwordError.style.display = "block";
+        valid = false;
+      } else {
+        passwordError.style.display = "none";
+      }
+
+      // Validate message
+      if (message.value.trim() === "") {
+        messageError.style.display = "block";
+        valid = false;
+      } else {
+        messageError.style.display = "none";
+      }
+
+      // Validate contact number
+      const contactPattern = /^\d{10}$/;
+      if (!contactPattern.test(contact.value.trim())) {
+        contactError.style.display = "block";
+        valid = false;
+      } else {
+        contactError.style.display = "none";
+      }
+
+      // Show success message if valid
+      if (valid) {
+        successMessage.style.display = "block";
+        form.reset(); // Clear the form
+      } else {
+        successMessage.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
